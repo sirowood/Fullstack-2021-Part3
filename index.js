@@ -23,3 +23,8 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+
+const PORT = 3001
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+})
