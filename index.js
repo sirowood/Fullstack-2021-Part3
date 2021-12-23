@@ -52,6 +52,15 @@ app.delete("/api/persons/:id", (request, response) => {
     }
 })
 
+app.post("/api/persons", (request, response) => {
+    const id = Math.round(Math.random() * 10000000)
+    const person = request.body
+    person.id = id
+    persons = persons.concat(person)
+
+    response.json(person)
+})
+
 app.get("/info", (request, response) => {
     let text = `<p>Phonebook has info for ${persons.length} people</p>`
     text += `<p>${Date()}</p>`
