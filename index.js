@@ -40,6 +40,18 @@ app.get("/api/persons/:id", (request, response) => {
     }
 })
 
+app.delete("/api/persons/:id", (request, response) => {
+    const id = Number(request.params.id)
+    const found = persons.find(person => person.id === id)
+
+    if (found) {
+        persons = persons.filter(person => person.id !== id)
+        response.status(204).end()
+    } else {
+        response.status(404).end()
+    }
+})
+
 app.get("/info", (request, response) => {
     let text = `<p>Phonebook has info for ${persons.length} people</p>`
     text += `<p>${Date()}</p>`
