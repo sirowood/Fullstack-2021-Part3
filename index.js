@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     { 
       "id": 1,
@@ -23,6 +25,10 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+
+app.get("/api/persons", (request, response) => {
+    response.send(persons)
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
