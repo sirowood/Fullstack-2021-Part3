@@ -35,6 +35,20 @@ app.get("/api/persons", (request, response) => {
     })
 })
 
+app.put("/api/persons/:id", (request, response) => {
+    const person = request.body
+    console.log(request.params.id)
+    Person.findByIdAndUpdate(request.params.id, {number: person.number}, {new: true})
+        .then(updatedPerson => {
+            if (updatedPerson) {
+                response.status(200).end()
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => next(error))
+})
+
 app.get("/api/persons/:id", (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
