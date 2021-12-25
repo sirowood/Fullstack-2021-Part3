@@ -35,7 +35,7 @@ app.get("/api/persons", (request, response) => {
     })
 })
 
-app.put("/api/persons/:id", (request, response) => {
+app.put("/api/persons/:id", (request, response, next) => {
     Person.findByIdAndUpdate(request.params.id, {number: request.body.number}, {new: true})
         .then(updatedPerson => {
             if (updatedPerson) {
@@ -47,7 +47,8 @@ app.put("/api/persons/:id", (request, response) => {
         .catch(error => next(error))
 })
 
-app.get("/api/persons/:id", (request, response) => {
+app.get("/api/persons/:id", (request, response, next) => {
+    /*
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
     if (person) {
@@ -55,6 +56,16 @@ app.get("/api/persons/:id", (request, response) => {
     } else {
         response.status(404).end()
     }
+    */
+    Person.findById(request.params.id)
+        .then(result => {
+            if (result) {
+                response.send(result)
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => next(error))
 })
 
 app.delete("/api/persons/:id", (request, response, next) => {
