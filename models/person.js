@@ -16,11 +16,18 @@ mongoose.connect(url)
 const personSchema = mongoose.Schema({
     name: {
         type: String,
+        minLength: 3,
         required: true,
         unique: true
     },
     number: {
         type: String,
+        validate: {
+            validator: (v) => {
+                return /^(\D*\d){8}/.test(v)
+            },
+            message: props => `${props.path} must at least 8 digits.`
+        },
         required: true
     }
 })

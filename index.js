@@ -11,6 +11,9 @@ const unknownEndpoint = (request, response) => {
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
+    if (error.message.includes('number') || error.path === 'number') {
+        return response.status(403).send({ error: error.message})
+    }
 
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id'})
@@ -40,7 +43,11 @@ app.get("/api/persons", (request, response) => {
 })
 
 app.put("/api/persons/:id", (request, response, next) => {
-    Person.findByIdAndUpdate(request.params.id, {number: request.body.number}, {new: true})
+    const opts = {
+        runValidators: true,
+        new: true
+    }
+    Person.findByIdAndUpdate(request.params.id, {number: request.body.number}, opts)
         .then(updatedPerson => {
             if (updatedPerson) {
                 response.status(200).end()
