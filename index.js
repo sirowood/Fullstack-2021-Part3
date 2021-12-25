@@ -36,9 +36,7 @@ app.get("/api/persons", (request, response) => {
 })
 
 app.put("/api/persons/:id", (request, response) => {
-    const person = request.body
-    console.log(request.params.id)
-    Person.findByIdAndUpdate(request.params.id, {number: person.number}, {new: true})
+    Person.findByIdAndUpdate(request.params.id, {number: request.body.number}, {new: true})
         .then(updatedPerson => {
             if (updatedPerson) {
                 response.status(200).end()
