@@ -59,15 +59,6 @@ app.put("/api/persons/:id", (request, response, next) => {
 })
 
 app.get("/api/persons/:id", (request, response, next) => {
-    /*
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
-        response.send(person)
-    } else {
-        response.status(404).end()
-    }
-    */
     Person.findById(request.params.id)
         .then(result => {
             if (result) {
