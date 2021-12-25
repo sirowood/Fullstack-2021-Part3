@@ -94,9 +94,12 @@ app.post("/api/persons", (request, response) => {
 })
 
 app.get("/info", (request, response) => {
-    let text = `<p>Phonebook has info for ${persons.length} people</p>`
-    text += `<p>${Date()}</p>`
-    response.send(text)
+    Person.find()
+        .then(persons => {
+            let text = `<p>Phonebook has info for ${persons.length} people</p>`
+            text += `<p>${Date()}</p>`
+            response.send(text)
+        })
 })
 
 app.use(unknownEndpoint)
